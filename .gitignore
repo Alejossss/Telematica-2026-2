@@ -1,0 +1,21 @@
+# Ejecutables compilados
+server/server_tcp
+server/server_udp
+server/server_concurrent
+server/client_tcp_test
+server/client_udp_test
+
+# Archivos objeto
+*.o
+
+# Archivos temporales
+*.tmp
+*.log
+
+# VS Code
+.vscode/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
