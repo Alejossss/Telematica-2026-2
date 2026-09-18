@@ -19,3 +19,6 @@ server/client_udp_test
 .DS_Store
 Thumbs.db
 
+# Cache de Python
+__pycache__/
+*.pyc
