@@ -21,6 +21,7 @@ Ejemplos:
 import argparse
 import os
 import queue
+import socket
 import sys
 import threading
 import time
@@ -140,6 +141,16 @@ class SesionOperador:
         while self.activo:
             try:
                 linea = self.conexion.leer_linea()
+
+            except socket.timeout:
+                # Que no llegue nada es lo NORMAL en una sesion de
+                # operador: el usuario puede tardar lo que quiera en
+                # escribir el siguiente comando. El socket tiene un
+                # timeout para que connect() no se cuelgue, pero aqui
+                # solo significa "sigue sin pasar nada", no un fallo.
+                # Lo que si corta la sesion es un recv() vacio (el
+                # servidor cerro) o un error real del socket.
+                continue
 
             except (OSError, ConnectionError) as exc:
                 if self.activo:
