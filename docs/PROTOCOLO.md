@@ -16,6 +16,26 @@ Plataforma Distribuida de Telemetría y Gestión de Infraestructura Inteligente.
 | Estilo | Texto plano, orientado a línea, delimitado por campos |
 | Transportes | UDP (telemetría) y TCP (registro, consultas, comandos, alertas) |
 | Puertos por defecto | UDP 5000, TCP 6000 |
+| Identificador de servidor | `TSP-SERVER-1` (campo `SERVER_ID` de `OK\|HELLO`) |
+
+### Límites y parámetros de la implementación de referencia
+
+Estos valores están fijados en `server/protocol.h` y `server/registry.h` y son
+parte del contrato del protocolo:
+
+| Parámetro | Valor | Definición |
+|---|---|---|
+| Tamaño máximo de mensaje | 1024 bytes | `TSP_MAX_MESSAGE` |
+| Longitud máxima de campo | 127 bytes útiles | `TSP_FIELD_LEN = 128` |
+| Campos máximos por mensaje | 24 | `TSP_MAX_FIELDS` |
+| Nodos máximos | 64 | `MAX_NODES` |
+| Variables máximas por nodo | 8 | `MAX_VARS_PER_NODE` |
+| Operadores TCP simultáneos | 32 | `MAX_OPERATORS` |
+| Historial de mediciones | 256 | `MAX_MEASUREMENTS` |
+| Historial de alertas | 128 | `MAX_ALERTS` |
+| Tiempo para marcar `OFFLINE` | 15 s | `NODE_TIMEOUT_SEG` |
+| Período del hilo monitor | 5 s | `MONITOR_PERIOD_SEG` |
+| Intervalo de muestreo sugerido | 3 s | `SUGGESTED_INTERVAL` (campo de `OK\|REGISTER`) |
 
 ---
 
@@ -38,8 +58,10 @@ Reglas del formato:
 | R5 | La longitud máxima de un mensaje, incluido el terminador, es de **1024 bytes**. |
 | R6 | El número de campos es fijo por tipo de mensaje, salvo en `TELEMETRY` y `REGISTER`, que aceptan pares repetidos. |
 | R7 | Los identificadores de nodo y los nombres de variable se comparan **sin distinguir mayúsculas** y se normalizan a mayúsculas. |
-| R8 | Los valores numéricos usan **punto decimal** (`24.8`), nunca coma. |
+| R8 | Los valores numéricos usan **punto decimal** (`24.8`), nunca coma. Deben consumir el campo completo: `strtod`/`strtol` sin caracteres sobrantes. |
 | R9 | Las marcas de tiempo son **epoch UNIX en segundos** (entero, UTC). |
+| R10 | Un campo individual no puede superar **127 bytes** (búfer de 128 con terminador). El número de campos por mensaje no puede superar **24**. Un mensaje que rebase cualquiera de estos límites se responde con `400 BAD_REQUEST`. |
+| R11 | Ningún campo puede contener bytes de control (`< 0x20`) distintos del terminador; si aparece uno, el mensaje se rechaza con `400 BAD_REQUEST`. |
 
 ### 1.1. Delimitación según el transporte
 
@@ -128,10 +150,15 @@ REGISTER|<NODE_ID>|<TIPO>|<UBICACION>|<VAR>|<UNIDAD>[|<VAR>|<UNIDAD>]...
 
 | Parámetro | Tipo | Obligatorio | Descripción |
 |---|---|---|---|
-| `NODE_ID` | cadena, 1–31 car. | sí | Identificador único del dispositivo |
+| `NODE_ID` | cadena, 1–31 car. | sí | Identificador único del dispositivo. Solo admite letras, dígitos y los caracteres `_`, `-` y `.`; en otro caso se responde `403 INVALID_PARAM` |
 | `TIPO` | cadena, 1–31 car. | sí | Clase de dispositivo (p. ej. `SENSOR_AMBIENTAL`) |
 | `UBICACION` | cadena, 1–63 car. | sí | Instalación donde está desplegado |
-| `VAR` / `UNIDAD` | pares repetidos, 1–8 pares | sí | Variables que el nodo reportará y su unidad |
+| `VAR` / `UNIDAD` | pares repetidos, 1–8 pares | sí | Variables que el nodo reportará y su unidad. El nombre de variable admite hasta 15 car. y la unidad hasta 7 car. |
+
+El mensaje completo debe traer **al menos 6 campos** (tipo, id, tipo de
+dispositivo, ubicación y un par variable/unidad); con menos, el servidor
+responde `402 MISSING_PARAM`. Si las variables no vienen en pares completos,
+responde `400 BAD_REQUEST`.
 
 **Respuesta:**
 
@@ -178,6 +205,12 @@ fue considerada anómala.
 > recibe. Se usa para diagnóstico y para medir la pérdida en el sentido
 > servidor → nodo.
 
+`TELEMETRY` **solo es válido sobre UDP**. Si llega por la conexión TCP, el
+servidor responde `401 UNKNOWN_COMMAND` (`TELEMETRY solo se acepta por UDP`).
+De forma simétrica, cualquier comando distinto de `TELEMETRY` recibido por UDP
+se rechaza con `401 UNKNOWN_COMMAND`. Un `SEQ` negativo o no entero produce
+`403 INVALID_PARAM`.
+
 ### 4.3. `HELLO` — apertura de sesión de operador (TCP)
 
 ```
@@ -191,7 +224,8 @@ OK|HELLO|<SERVER_ID>|TSP/1.0|<UPTIME_SEG>
 ```
 
 `HELLO` es el primer mensaje de una conexión de operador e identifica su rol
-frente al de un nodo, que se identifica con `REGISTER`.
+frente al de un nodo, que se identifica con `REGISTER`. El nombre del operador
+es obligatorio: un `HELLO` sin nombre se responde con `402 MISSING_PARAM`.
 
 El servidor es **tolerante** en este punto: si una conexión lanza directamente
 un `GET_*`, la atiende y la da por operador sin nombre. Esto permite demostrar
@@ -524,7 +558,7 @@ SERVIDOR ← ALERT|NODO01|TEMP_HIGH|24.90|1774900853|CRITICAL
 
 ```
 OPERADOR → GET_STATUS|NODO99
-SERVIDOR ← ERR|404|NODE_NOT_FOUND|El nodo NODO99 no esta registrado
+SERVIDOR ← ERR|404|NODE_NOT_FOUND|El nodo consultado no esta registrado
 
 OPERADOR → GET_STATUS
 SERVIDOR ← ERR|402|MISSING_PARAM|GET_STATUS requiere el identificador del nodo
@@ -536,7 +570,7 @@ OPERADOR → SET_THRESHOLD|*|TEMP|50|10
 SERVIDOR ← ERR|403|INVALID_PARAM|El umbral minimo no puede ser mayor que el maximo
 
 OPERADOR → (línea vacía)
-SERVIDOR ← ERR|400|BAD_REQUEST|Mensaje vacio o sin tipo
+SERVIDOR ← ERR|400|BAD_REQUEST|Mensaje vacio o mal formado
 
 NODO07   → TELEMETRY|NODO07|1|TEMP|22.0          (por UDP, sin REGISTER previo)
 SERVIDOR ← ERR|406|NOT_REGISTERED|El nodo debe registrarse por TCP antes de enviar telemetria
