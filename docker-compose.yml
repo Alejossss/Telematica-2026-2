@@ -1,0 +1,33 @@
+# docker-compose para el despliegue del Servicio_Web (Punto 7).
+#
+# ALCANCE: este spec solo empaqueta el Servicio_Web. El Docker del
+# Servidor_Central (servidor concurrente en C) queda FUERA DEL ALCANCE de este
+# spec. Debe añadirse como un servicio hermano `servidor-central` en esta misma
+# red de compose para que el Servicio_Web lo alcance por su nombre DNS. Ejemplo:
+#
+#   servidor-central:
+#     build:
+#       context: .
+#       dockerfile: server/Dockerfile   # (definido fuera de este spec)
+#     ports:
+#       - "6000:6000"
+#
+# El Servicio_Web localiza al Servidor_Central por NOMBRE DNS del servicio de
+# compose (nunca por IP fija): TSP_SERVER_HOST=servidor-central es resuelto por
+# el DNS interno de Docker Compose (Req. 2.1, 2.9).
+
+services:
+  servicio-web:
+    build:
+      # El contexto es la raíz del repo para poder copiar clients/ y web/.
+      context: .
+      dockerfile: web/Dockerfile
+    environment:
+      # TSP_SERVER_HOST es el nombre DNS del servicio del Servidor_Central en la
+      # red del compose, NUNCA una IP fija (Req. 2.1, 2.9).
+      - TSP_SERVER_HOST=servidor-central
+      - TSP_TCP_PORT=6000
+      - WEB_PORT=8080
+    ports:
+      # Publica el puerto HTTP del Servicio_Web (Req. 2.6, 9.4).
+      - "8080:8080"

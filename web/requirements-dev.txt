@@ -1,0 +1,6 @@
+# Dependencias de desarrollo del Servicio_Web (solo para pruebas).
+#
+# El código de producción usa ÚNICAMENTE la biblioteca estándar de Python
+# (Req. 9.1) y reutiliza clients/tsp.py (Req. 9.2). Hypothesis se usa solo para
+# las pruebas basadas en propiedades (PBT); no es una dependencia de ejecución.
+hypothesis

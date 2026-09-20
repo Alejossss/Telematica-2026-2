@@ -1,0 +1,265 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Preparar la estructura del módulo y el andamiaje de pruebas": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863106630
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863115441
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863279162
+      }
+    ],
+    "2.1 Implementar `parsear_puerto` y `Config` / `cargar_config`": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863107125
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863283034
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863517703
+      }
+    ],
+    "3.1 Definir las dataclasses del panel": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863107513
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863284360
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863518444
+      }
+    ],
+    "4.1 Implementar los parsers de registros crudos al modelo": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863107637
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863285340
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863642480
+      }
+    ],
+    "5. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863107760
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863832695
+      }
+    ],
+    "6.1 Implementar el flujo feliz de `obtener_panel`": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863107873
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863655708
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863800237
+      }
+    ],
+    "6.2 Implementar la traducción de errores a Estado Degradado y parcial": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863107985
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863848564
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864010868
+      }
+    ],
+    "7.1 Implementar la página autocontenida con escapado y secciones": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863108094
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863849946
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864145606
+      }
+    ],
+    "8. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863108207
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864196342
+      }
+    ],
+    "9.1 Implementar el enrutado de rutas y métodos": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863108302
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864201021
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864325561
+      }
+    ],
+    "10.1 Cablear `main` con `ThreadingHTTPServer`": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863108408
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864326675
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864405988
+      }
+    ],
+    "11. Añadir el empaquetado de despliegue del servicio web (Punto 7 en Docker)": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863108501
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864414804
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864488044
+      }
+    ],
+    "12. Final checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863108608
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864492674
+      },
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864520298
+      }
+    ],
+    "2. Implementar el cargador de configuración": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863517839
+      }
+    ],
+    "3. Implementar el modelo de datos": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863518570
+      }
+    ],
+    "4. Implementar el parseo tolerante de registros": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789863642648
+      }
+    ],
+    "6. Implementar la capa de obtención de datos TSP (`obtener_panel`)": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864011129
+      }
+    ],
+    "7. Implementar el renderizador HTML (`render_pagina`)": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864145736
+      }
+    ],
+    "9. Implementar el manejador HTTP `ManejadorWeb`": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864325710
+      }
+    ],
+    "10. Implementar el arranque concurrente (`main`)": [
+      {
+        "executionId": "e68098d8-a2d3-4bfa-824b-c78e40e44d2c",
+        "chatSessionId": "sess_02571150-cb3d-4c8a-9b03-4218a84e79cb",
+        "timestamp": 1789864406119
+      }
+    ]
+  }
+}
