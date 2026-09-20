@@ -18,9 +18,9 @@ UDP.
 ## Integrantes
 
 - Alejandro Jaramillo Rodriguez
-- Samuel Herrera
-- Simon Castro
-- JE
+- Samuel Herrera Galvis
+- Simon Castro Valencia
+- Juan Esteban Orrego
 
 ---
 
