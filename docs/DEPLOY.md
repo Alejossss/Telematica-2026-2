@@ -10,6 +10,28 @@ para configurar un **nombre DNS** que apunte a la IP pública de la instancia.
 > clientes externos localizan el servidor por el **nombre DNS público** que se
 > configura en este documento.
 
+## Despliegue actual (referencia pública)
+
+El sistema está desplegado y accesible por Internet con los siguientes datos
+públicos. Se pueden usar directamente para conectarse o verificar el servicio.
+
+| Dato                    | Valor                                          |
+|-------------------------|------------------------------------------------|
+| **Nombre DNS público**  | `telemetriasjas.duckdns.org`                   |
+| **IP pública elástica** | `3.229.199.163`                                |
+| **DNS público de EC2**  | `ec2-3-229-199-163.compute-1.amazonaws.com`    |
+| **Sistema operativo**   | Ubuntu Server (AWS EC2)                         |
+| **Orquestación**        | Docker + Docker Compose (`docker compose`)      |
+
+Accesos rápidos:
+
+- Servicio Web: <http://telemetriasjas.duckdns.org:8080/>
+- Servidor TSP (TCP): `telemetriasjas.duckdns.org:6000`
+- Telemetría (UDP): `telemetriasjas.duckdns.org:5000`
+
+> La IP elástica (`3.229.199.163`) permanece estable mientras siga asociada a la
+> instancia, por lo que el registro DNS no necesita actualizarse tras reinicios.
+
 ---
 
 ## 0. Puertos del sistema
@@ -90,14 +112,18 @@ aws ec2 authorize-security-group-ingress --group-id sg-xxxxxxxx \
 
 ## 3. Acceso remoto por SSH
 
-Desde tu equipo, con el `.pem` descargado:
+Desde tu equipo, con el `.pem` descargado (ajusta la ruta a donde tengas la
+clave; nunca la publiques ni la subas al repositorio):
 
 ```bash
-chmod 400 telemetria-key.pem
-ssh -i telemetria-key.pem ubuntu@<IP_O_DNS_PUBLICO>
+chmod 400 telemetria.pem
+ssh -i telemetria.pem ubuntu@ec2-3-229-199-163.compute-1.amazonaws.com
+# o, equivalentemente, por el nombre DNS público:
+ssh -i telemetria.pem ubuntu@telemetriasjas.duckdns.org
 ```
 
-El usuario por defecto de las AMI de Ubuntu es `ubuntu`.
+El usuario por defecto de las AMI de Ubuntu es `ubuntu`. La clave privada
+(`telemetria.pem`) es **secreta**: no se versiona ni se comparte.
 
 ---
 
@@ -157,7 +183,7 @@ lograrlo.
 ### 5.1. Concepto
 
 El **DNS (Domain Name System)** traduce nombres legibles
-(`telemetria.midominio.com`) a direcciones IP (`3.91.x.x`). Al publicar el
+(`telemetriasjas.duckdns.org`) a direcciones IP (`3.229.199.163`). Al publicar el
 servidor bajo un nombre, los nodos y operadores usan ese nombre y no necesitan
 conocer la IP; si la IP cambia, basta actualizar el registro DNS sin tocar el
 código ni los clientes.
@@ -177,10 +203,11 @@ el resolver del SO consulta la jerarquía DNS y obtiene la IP a la que conectars
 Dos formas equivalentes de publicar el servicio:
 
 - **Registro A → Elastic IP (recomendado).** Es estable y directo. La Elastic
-  IP no cambia mientras esté asociada a la instancia.
+  IP no cambia mientras esté asociada a la instancia. Es el enfoque usado en
+  este despliegue:
 
   ```
-  telemetria.midominio.com.   A   300   3.91.10.20
+  telemetriasjas.duckdns.org.   A   300   3.229.199.163
   ```
 
 - **Registro CNAME → DNS público de EC2.** El nombre de tu dominio apunta al
@@ -189,7 +216,7 @@ Dos formas equivalentes de publicar el servicio:
   Elastic IP).
 
   ```
-  telemetria.midominio.com.   CNAME   300   ec2-3-91-10-20.compute-1.amazonaws.com.
+  telemetriasjas.duckdns.org.   CNAME   300   ec2-3-229-199-163.compute-1.amazonaws.com.
   ```
 
 > El **TTL** (p. ej. 300 s) indica cuánto puede cachear el registro un
@@ -210,20 +237,29 @@ dominio. Opciones típicas:
 Para una demostración sin comprar dominio, un servicio de **DNS dinámico
 gratuito** (DuckDNS, No-IP) da un nombre como `telemetria.duckdns.org` que
 puedes apuntar a la Elastic IP: cumple igual el requisito de localizar por
-nombre DNS.
+nombre DNS. Este despliegue usa **DuckDNS**, con el nombre
+`telemetriasjas.duckdns.org` apuntando a la Elastic IP `3.229.199.163`.
 
 ### 5.4. Verificar la resolución
 
 Desde cualquier equipo, comprueba que el nombre resuelve a la IP esperada:
 
 ```bash
-nslookup telemetria.midominio.com
+nslookup telemetriasjas.duckdns.org
 # o
-dig +short telemetria.midominio.com
+dig +short telemetriasjas.duckdns.org
+# Salida esperada: 3.229.199.163
 ```
 
-Debe devolver la IP pública / Elastic IP de la instancia. Si no, espera a que
-propague (según el TTL) y revisa que el registro esté bien creado.
+En Windows (PowerShell):
+
+```powershell
+Resolve-DnsName telemetriasjas.duckdns.org -Type A
+```
+
+Debe devolver la IP pública / Elastic IP de la instancia (`3.229.199.163`). Si
+no, espera a que propague (según el TTL) y revisa que el registro esté bien
+creado.
 
 ### 5.5. Usar el nombre DNS en los clientes
 
@@ -232,17 +268,20 @@ nombre — que es exactamente lo que pide el Punto 8:
 
 ```bash
 # Variable de entorno para no repetir el host en cada comando
-export TSP_SERVER_HOST=telemetria.midominio.com
+export TSP_SERVER_HOST=telemetriasjas.duckdns.org
 
 # Nodos de telemetría (5 o más), localizando el servidor por DNS
-python3 clients/run_nodes.py --count 5 --host telemetria.midominio.com
+python3 clients/run_nodes.py --count 5 --host telemetriasjas.duckdns.org
 
 # Cliente operador
-python3 clients/operator_cli.py --host telemetria.midominio.com
+python3 clients/operator_cli.py --host telemetriasjas.duckdns.org
 
 # Servicio Web en el navegador
-# http://telemetria.midominio.com:8080/
+# http://telemetriasjas.duckdns.org:8080/
 ```
+
+> En Windows, si `python3` no existe, usa `python`. Ejemplo:
+> `python clients/run_nodes.py --count 5 --host telemetriasjas.duckdns.org`.
 
 ---
 
@@ -253,17 +292,37 @@ el **nombre DNS público**, para demostrar accesibilidad real por Internet.
 
 ```bash
 # 1. El DNS resuelve a la IP de EC2
-dig +short telemetria.midominio.com
+dig +short telemetriasjas.duckdns.org        # -> 3.229.199.163
 
 # 2. TCP 6000 — un comando TSP recibe respuesta
 #    (escribe LIST_NODES y luego BYE dentro de nc)
-nc telemetria.midominio.com 6000
+nc telemetriasjas.duckdns.org 6000
 
 # 3. UDP 5000 — un nodo real envía telemetría y recibe ACK
-python3 clients/telemetry_node.py --id NODO01 --host telemetria.midominio.com
+python3 clients/telemetry_node.py --id NODO01 --host telemetriasjas.duckdns.org
 
 # 4. HTTP 8080 — el Servicio_Web responde
-curl http://telemetria.midominio.com:8080/
+curl http://telemetriasjas.duckdns.org:8080/
+```
+
+En Windows (PowerShell), la verificación equivalente de los tres servicios:
+
+```powershell
+# DNS
+Resolve-DnsName telemetriasjas.duckdns.org -Type A
+
+# TCP 6000 (envía LIST_NODES y lee la respuesta)
+$c = New-Object System.Net.Sockets.TcpClient
+$c.Connect("telemetriasjas.duckdns.org", 6000)
+$s = $c.GetStream(); $w = New-Object System.IO.StreamWriter($s)
+$w.NewLine = "`n"; $w.AutoFlush = $true; $w.WriteLine("LIST_NODES")
+Start-Sleep -Milliseconds 700
+$buf = New-Object byte[] 4096; $s.ReadTimeout = 2000
+$n = $s.Read($buf, 0, 4096); [Text.Encoding]::ASCII.GetString($buf, 0, $n)
+$w.WriteLine("BYE"); $c.Close()
+
+# HTTP 8080
+Invoke-WebRequest -Uri "http://telemetriasjas.duckdns.org:8080/" -UseBasicParsing
 ```
 
 Si los cuatro pasos responden, el sistema está desplegado en la nube,
