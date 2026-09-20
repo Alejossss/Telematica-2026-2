@@ -1,0 +1,121 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Crear el `server/Dockerfile` multi-etapa del Servidor_Central": [
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867170104
+      },
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867178337
+      },
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867233554
+      }
+    ],
+    "2. Crear el `.dockerignore` en la raíz para un contexto de build magro": [
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867170223
+      },
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867179204
+      },
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867234667
+      }
+    ],
+    "3. Ampliar `docker-compose.yml` con el Servicio_Servidor y conservar el Servicio_Web": [
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867170325
+      },
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867238892
+      },
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867315066
+      }
+    ],
+    "4. Checkpoint — Artefactos de contenerización creados": [
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867170434
+      },
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867330014
+      },
+      {
+        "executionId": "f44bb5ea-97a5-4259-8fd7-534338a604dd",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867396008
+      }
+    ],
+    "5. Verificar la construcción de la imagen del servidor y la ausencia de compilador en runtime": [
+      {
+        "executionId": "d7bcf267-0f22-40fe-917d-352e0df86c7b",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867601984
+      },
+      {
+        "executionId": "d7bcf267-0f22-40fe-917d-352e0df86c7b",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867942301
+      }
+    ],
+    "6. Verificar la ejecución del contenedor y el alcance de los puertos": [
+      {
+        "executionId": "d7bcf267-0f22-40fe-917d-352e0df86c7b",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789867947745
+      },
+      {
+        "executionId": "d7bcf267-0f22-40fe-917d-352e0df86c7b",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789868317209
+      }
+    ],
+    "7. Verificar la orquestación conjunta y la resolución DNS interna": [
+      {
+        "executionId": "d7bcf267-0f22-40fe-917d-352e0df86c7b",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789868320730
+      },
+      {
+        "executionId": "d7bcf267-0f22-40fe-917d-352e0df86c7b",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789868545495
+      }
+    ],
+    "8. Documentar las instrucciones de build/run/compose y el despliegue en AWS EC2": [
+      {
+        "executionId": "d7bcf267-0f22-40fe-917d-352e0df86c7b",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789868549101
+      },
+      {
+        "executionId": "d7bcf267-0f22-40fe-917d-352e0df86c7b",
+        "chatSessionId": "sess_55aeac19-ce43-4f74-8204-8aad92e149c2",
+        "timestamp": 1789868638574
+      }
+    ]
+  }
+}

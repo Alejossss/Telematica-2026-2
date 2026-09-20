@@ -1,33 +1,48 @@
-# docker-compose para el despliegue del Servicio_Web (Punto 7).
+# docker-compose para la orquestacion del sistema completo (Punto 9).
 #
-# ALCANCE: este spec solo empaqueta el Servicio_Web. El Docker del
-# Servidor_Central (servidor concurrente en C) queda FUERA DEL ALCANCE de este
-# spec. Debe añadirse como un servicio hermano `servidor-central` en esta misma
-# red de compose para que el Servicio_Web lo alcance por su nombre DNS. Ejemplo:
+# Levanta dos servicios hermanos en la misma red por defecto de compose
+# (Red_Compose), que provee DNS interno:
+#   - servidor-central: Servidor_Central en C (server/server_concurrent),
+#     contenerizado via server/Dockerfile. Publica TCP 6000 y UDP 5000.
+#   - servicio-web: Servicio_Web en Python (Punto 7), ya existente. Publica
+#     HTTP 8080 y localiza al servidor por NOMBRE DNS del servicio de compose
+#     (TSP_SERVER_HOST=servidor-central), NUNCA por IP fija.
 #
-#   servidor-central:
-#     build:
-#       context: .
-#       dockerfile: server/Dockerfile   # (definido fuera de este spec)
-#     ports:
-#       - "6000:6000"
-#
-# El Servicio_Web localiza al Servidor_Central por NOMBRE DNS del servicio de
-# compose (nunca por IP fija): TSP_SERVER_HOST=servidor-central es resuelto por
-# el DNS interno de Docker Compose (Req. 2.1, 2.9).
+# El binario del Servidor_Central ya lee sus puertos del entorno y enlaza a
+# INADDR_ANY; no se modifica ninguna fuente C ni la logica del Servicio_Web.
 
 services:
+  # Servidor_Central en C contenerizado (Punto 9).
+  servidor-central:
+    build:
+      # El contexto es la raiz del repo para copiar Makefile y server/ (Req. 3.2).
+      context: .
+      dockerfile: server/Dockerfile
+    environment:
+      # Puertos configurables por entorno; valores por defecto del Punto 9.
+      - TSP_TCP_PORT=6000
+      - TSP_UDP_PORT=5000
+    ports:
+      # Publica el puerto TCP de registro/comandos/alertas (Req. 3.3).
+      - "6000:6000"
+      # Publica el puerto UDP de telemetria (Req. 3.4).
+      - "5000:5000/udp"
+
+  # Servicio_Web en Python (Punto 7), ya existente.
   servicio-web:
     build:
-      # El contexto es la raíz del repo para poder copiar clients/ y web/.
+      # El contexto es la raiz del repo para poder copiar clients/ y web/.
       context: .
       dockerfile: web/Dockerfile
+    depends_on:
+      # Arranque ordenado: el servidor arranca antes que el web (Req. 4.x).
+      - servidor-central
     environment:
       # TSP_SERVER_HOST es el nombre DNS del servicio del Servidor_Central en la
-      # red del compose, NUNCA una IP fija (Req. 2.1, 2.9).
+      # red del compose, NUNCA una IP fija (Req. 4.1, 4.2, 4.3).
       - TSP_SERVER_HOST=servidor-central
       - TSP_TCP_PORT=6000
       - WEB_PORT=8080
     ports:
-      # Publica el puerto HTTP del Servicio_Web (Req. 2.6, 9.4).
+      # Publica el puerto HTTP del Servicio_Web (Req. 3.5).
       - "8080:8080"

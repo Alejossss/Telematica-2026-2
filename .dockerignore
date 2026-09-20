@@ -1,0 +1,20 @@
+# .dockerignore — Contenerizacion del Servidor_Central (Punto 9).
+# Reduce el contexto enviado al demonio Docker y evita filtrar binarios y
+# artefactos locales dentro de la imagen. El binario se recompila en el builder
+# (Etapa_Compilacion), por lo que el server_concurrent local no debe copiarse.
+
+# Historial de control de versiones (innecesario en el contexto de build).
+.git
+
+# Cache de bytecode de Python (nodos, clientes y servicio web).
+**/__pycache__
+
+# Binario del Servidor_Central compilado localmente (se recompila en el builder).
+server/server_concurrent
+
+# Objetos intermedios de compilacion en C.
+server/*.o
+
+# Binarios de prueba del servidor compilados localmente.
+server/client_tcp_test
+server/client_udp_test
